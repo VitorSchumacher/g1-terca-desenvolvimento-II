@@ -1,5 +1,12 @@
 import { Text, View } from "react-native";
-import { Main, TetxTitle, ViewColumn, ViewLine } from "./styled";
+import {
+  Main,
+  TetxTitle,
+  TextTitleItem,
+  ViewBlue,
+  ViewColumn,
+  ViewLine,
+} from "./styled";
 
 const CardHome = ({ data }) => {
   console.log(data);
@@ -22,16 +29,22 @@ const CardHome = ({ data }) => {
       </ViewLine>
       <ViewLine>
         <ViewColumn>
-          <Text>Categoria</Text>
-          <Text>{data.category}</Text>
+          <TextTitleItem>Categoria</TextTitleItem>
+          <ViewBlue>
+            <Text>{data.category}</Text>
+          </ViewBlue>
         </ViewColumn>
         <ViewColumn>
-          <Text>Nível de Risco</Text>
-          <Text>{data.risk_level}</Text>
+          <TextTitleItem>Nível de Risco</TextTitleItem>
+          <ViewBlue>
+            <Text>{data.risk_level}</Text>
+          </ViewBlue>
         </ViewColumn>
         <ViewColumn>
-          <Text>Status</Text>
-          <Text>{data.status}</Text>
+          <TextTitleItem>Status</TextTitleItem>
+          <ViewBlue>
+            <Text>{data.status}</Text>
+          </ViewBlue>
         </ViewColumn>
       </ViewLine>
       <ViewLine>
