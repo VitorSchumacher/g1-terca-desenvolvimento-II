@@ -27,6 +27,9 @@ const Home = () => {
   const navigateCreateOccurence = () => {
     navigate("CreateOccurence");
   };
+  const navigateOccurence = (id) => {
+    navigate("OccurenceDetails", { id });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -35,7 +38,7 @@ const Home = () => {
         <FlatList
           data={items}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <CardHome data={item} />}
+          renderItem={({ item }) => <CardHome data={item} navigate={()=> navigateOccurence(item.id)}/>}
           ListFooterComponent={<View style={{ width: 10, height: 20 }} />}
           showsVerticalScrollIndicator={false}
         />

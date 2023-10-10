@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import {
   Main,
   TetxTitle,
@@ -9,7 +9,7 @@ import {
 } from "./styled";
 import setTiskLeavel from "../../utils/setRiskLevel";
 
-const CardHome = ({ data }) => {
+const CardHome = ({ data, navigate }) => {
   console.log(data);
   const dateObj = new Date(data.created_at);
 
@@ -51,9 +51,9 @@ const CardHome = ({ data }) => {
       <ViewLine>
         <Text>Cidade: city fazer lat long</Text>
       </ViewLine>
-      <View>
+      <TouchableOpacity onPress={navigate}>
         <Text>Ver detalhes</Text>
-      </View>
+      </TouchableOpacity>
     </Main>
   );
 };

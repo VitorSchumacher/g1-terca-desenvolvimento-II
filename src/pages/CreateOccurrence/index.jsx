@@ -8,20 +8,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import TextInput from "../../components/TextInput";
 import { createOccurrenceSchema } from "../../utils/createOccurrenceValidation";
 import {
-    AppContainer,
-    HeaderWrapper,
-    MainHeader,
-    FormWrapper,
-    InputBlock,
-    InputLabel,
-    ScrollContent,
-    SubmitButton,
-    ButtonLabel,
-    MessageText,
-    ErrorText,
-    StyledSwitch,
-    ButtonsWrapper,
-  } from "./styles";
+  AppContainer,
+  HeaderWrapper,
+  MainHeader,
+  FormWrapper,
+  InputBlock,
+  InputLabel,
+  ScrollContent,
+  SubmitButton,
+  ButtonLabel,
+  MessageText,
+  ErrorText,
+  StyledSwitch,
+  ButtonsWrapper,
+} from "./styles";
 import CategoryPicker from "../../components/CategoryPicker";
 import RiskLevelPicker from "../../components/RiskLevelPicker";
 import StatusPicker from "../../components/StatusPicker";
@@ -41,7 +41,7 @@ const defaultValues = {
   trust_level: null,
 };
 
-export default function CreateOccurrence() {
+const CreateOccurrence = () => {
   const navigation = useNavigation();
 
   const {
@@ -181,4 +181,5 @@ export default function CreateOccurrence() {
       </ScrollView>
     </AppContainer>
   );
-}
+};
+export default CreateOccurrence;
