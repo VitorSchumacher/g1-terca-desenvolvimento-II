@@ -11,8 +11,8 @@ import AuthProvider from "./src/contexts/auth";
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor="#68B2F8"  />
       <AuthProvider>
-        <StatusBar barStyle="dark-content" />
         <Routes />
       </AuthProvider>
     </NavigationContainer>

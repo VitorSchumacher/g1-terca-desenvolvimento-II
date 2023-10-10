@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import CreateUser from '../pages/CreateUser';
 import DetailsUser from '../pages/DetailsUser';
 import EditUser from '../pages/EditUser';
+import CreateOccurrence from '../pages/CreateOccurrence';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -35,6 +36,13 @@ function AuthRoutes() {
             <AuthStack.Screen
                 name="EditUser"
                 component={EditUser}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <AuthStack.Screen
+                name="CreateOccurence"
+                component={CreateOccurrence}
                 options={{
                     headerShown: false,
                 }}

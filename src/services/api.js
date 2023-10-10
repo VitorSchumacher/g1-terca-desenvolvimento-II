@@ -9,6 +9,7 @@ const setAuthorizationHeader = async () => {
   try {
     const token = await AsyncStorage.getItem('@authToken');
     if (token) {
+      console.log("🚀 ~ file: api.js:12 ~ setAuthorizationHeader ~ token:", token)
       api.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${token}`;
         return config;

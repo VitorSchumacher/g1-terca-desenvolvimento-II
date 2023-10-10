@@ -7,6 +7,7 @@ import {
   ViewColumn,
   ViewLine,
 } from "./styled";
+import setTiskLeavel from "../../utils/setRiskLevel";
 
 const CardHome = ({ data }) => {
   console.log(data);
@@ -37,7 +38,7 @@ const CardHome = ({ data }) => {
         <ViewColumn>
           <TextTitleItem>Nível de Risco</TextTitleItem>
           <ViewBlue>
-            <Text>{data.risk_level}</Text>
+            <Text>{setTiskLeavel(data.risk_level)}</Text>
           </ViewBlue>
         </ViewColumn>
         <ViewColumn>

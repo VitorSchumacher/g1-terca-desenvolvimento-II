@@ -4,8 +4,10 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { getOccurence } from "../../services/home";
 import { AuthContext } from "../../contexts/auth";
 import CardHome from "../../components/CardHome";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
+  const { navigate } = useNavigation();
   const { signOut } = useContext(AuthContext);
   const [items, setItems] = useState();
 
@@ -22,9 +24,13 @@ const Home = () => {
     getData();
   }, []);
 
+  const navigateCreateOccurence = () => {
+    navigate("CreateOccurence");
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-      <HeaderHome onPress={() => signOut()} />
+      <HeaderHome onPress={() => navigateCreateOccurence()} />
       <View style={{ flex: 1 }}>
         <FlatList
           data={items}
