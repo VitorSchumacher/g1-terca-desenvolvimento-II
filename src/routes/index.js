@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import React, { useContext, useEffect, useState } from "react";
 
-import { AuthContext } from '../contexts/auth'
+import AuthRoutes from "./auth.routes";
+import AppRoutes from "./app.routes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../contexts/auth";
+import { ActivityIndicator, View } from "react-native";
 
-import AuthRoutes from './auth.routes';
-import AppRoutes from './app.routes';
-
-function Routes(){
+function Routes() {
+  const [isAuth, setIsAuth] = useState(false);
   const { signed, loading } = useContext(AuthContext);
-
+  
   if(loading){
     return(
-      <View 
+      <View
       style={{
         flex:1,
         justifyContent: 'center',
@@ -23,9 +24,7 @@ function Routes(){
     )
   }
 
-  return(
-    signed ? <AppRoutes/> : <AuthRoutes/>
-  )
+  return signed ? <AppRoutes /> : <AuthRoutes />;
 }
 
 export default Routes;

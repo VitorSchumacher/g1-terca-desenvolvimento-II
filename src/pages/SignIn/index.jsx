@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Platform, ActivityIndicator, View, Text } from "react-native";
-import LogoImg from "../../assets/logologin.png";
 
 import {
   Background,
@@ -15,8 +14,11 @@ import {
 } from "./styles";
 
 import { useNavigation } from "@react-navigation/native";
+import { signInWithEmailAndPassword, signOut, getAuth } from "firebase/auth"; // Import the necessary Firebase auth functions
 
 import { AuthContext } from "../../contexts/auth";
+import { db, app } from "../../firebaseConnection.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignIn() {
   const navigation = useNavigation();
@@ -25,14 +27,17 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin() {
-    signIn(email, password);
+  const auth = getAuth(app); // Get the Auth object from your Firebase connection
+
+  async function logar() {
+    signIn(email, password)
+    setEmail("");
+    setPassword("");
   }
 
   return (
     <Background>
       <Container behavior={Platform.OS === "ios" ? "padding" : ""} enabled>
-        <Logo source={LogoImg} />
         <View>
           <Text>Email:</Text>
           <AreaInput>
@@ -55,7 +60,7 @@ export default function SignIn() {
           </AreaInput>
         </View>
 
-        <SubmitButton activeOpacity={0.8} onPress={handleLogin}>
+        <SubmitButton activeOpacity={0.8} onPress={() => logar()}>
           {loadingAuth ? (
             <ActivityIndicator size={20} color="#FFF" />
           ) : (
