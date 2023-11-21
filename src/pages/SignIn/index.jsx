@@ -11,14 +11,12 @@ import {
   SubmitText,
   Link,
   LinkText,
+  Label,
 } from "./styles";
 
 import { useNavigation } from "@react-navigation/native";
-import { signInWithEmailAndPassword, signOut, getAuth } from "firebase/auth"; // Import the necessary Firebase auth functions
 
 import { AuthContext } from "../../contexts/auth";
-import { db, app } from "../../firebaseConnection.js";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignIn() {
   const navigation = useNavigation();
@@ -27,7 +25,6 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const auth = getAuth(app); // Get the Auth object from your Firebase connection
 
   async function logar() {
     signIn(email, password)
@@ -39,7 +36,7 @@ export default function SignIn() {
     <Background>
       <Container behavior={Platform.OS === "ios" ? "padding" : ""} enabled>
         <View>
-          <Text>Email:</Text>
+          <Label>Email:</Label>
           <AreaInput>
             <Input
               placeholder="Seu email"
@@ -49,7 +46,7 @@ export default function SignIn() {
           </AreaInput>
         </View>
         <View>
-          <Text>Senha:</Text>
+          <Label>Senha:</Label>
           <AreaInput>
             <Input
               placeholder="Sua senha"
@@ -68,7 +65,7 @@ export default function SignIn() {
           )}
         </SubmitButton>
 
-        <Link onPress={() => navigation.navigate("CreateUser")}>
+        <Link onPress={() => navigation.navigate("SignUp")}>
           <LinkText>Criar nova conta</LinkText>
         </Link>
       </Container>

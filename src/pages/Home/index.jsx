@@ -1,13 +1,9 @@
 // App.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ScrollView,
-  TextInput,
   Button,
   TouchableOpacity,
-  Text,
-  FlatList,
-  SafeAreaView,
   View,
   Keyboard,
 } from "react-native";
@@ -19,31 +15,29 @@ import {
   TouchableOpacityText,
   Input,
   ViewAbsolute,
+  ViewTop,
 } from "./style";
 import Task from "../../components/Task";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { db } from "../../firebaseConnection";
-import { ref, onValue, push, remove, update } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import { Modal } from "../../containers/modals/Modal";
+import { AuthContext } from "../../contexts/auth";
+import { Ionicons } from "@expo/vector-icons";
+import { addNewUTask, checkComplete, deleteTask, submitEditService } from "../../services/task";
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
   const [taskText, setTaskText] = useState("");
-  const [isDateTimePickerVisible, setDateTimePickerVisible] = useState(false);
-  const [selectedTaskIndex, setSelectedTaskIndex] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectData, setSelectData] = useState(false);
   const [editModal, setEditModal] = useState();
   const [componentHeight, setComponentHeight] = useState(0);
+  const { signOut } = useContext(AuthContext);
 
   const handleLayout = (event) => {
     const { height } = event.nativeEvent.layout;
     setComponentHeight(height);
-  };
-
-  const showDateTimePicker = (index) => {
-    setSelectedTaskIndex(index);
-    setDateTimePickerVisible(true);
   };
 
   const fetchData = async () => {
@@ -61,14 +55,6 @@ const TodoList = () => {
     fetchData();
   }, []);
 
-  function addNewUTask(task) {
-    push(ref(db, "/tasks"), {
-      title: task.title,
-      deadline: task.dateTime.toLocaleString(),
-      finished: false,
-    });
-  }
-
   const addTask = () => {
     if (taskText) {
       const formattedDate = selectedDate;
@@ -82,17 +68,6 @@ const TodoList = () => {
     }
   };
 
-  const deleteTask = (index) => {
-    const userRef = ref(db, `/tasks/${index}`);
-    remove(userRef)
-      .then(() => {
-        console.log(`Usuário com chave ${index} removido com sucesso.`);
-      })
-      .catch((error) => {
-        console.error(`Erro ao remover o usuário: ${error}`);
-      });
-  };
-
   const handleDateChange = (date) => {
     if (date) {
       setSelectedDate(date);
@@ -103,25 +78,23 @@ const TodoList = () => {
     setSelectData((prevState) => !prevState);
   };
 
-  const editModalFunc = (task, index) => {
+  const editModalFunc = (task) => {
     setEditModal({ task: tasks[task], index: task });
   };
   const submitEdit = (newData, index) => {
-    const userRef = ref(db, `/tasks/${index}`);
-    update(userRef, newData)
-      .then(() => {
-        console.log(`Usuário com chave ${index} removido com sucesso.`);
-      })
-      .catch((error) => {
-        console.error(`Erro ao remover o usuário: ${error}`);
-      });
+    submitEditService(newData, index)
     setEditModal();
   };
 
   return (
     <Container>
       <ViewAbsolute onLayout={handleLayout}>
-        <Title>ToDo List</Title>
+        <ViewTop>
+          <Title>ToDo List</Title>
+          <TouchableOpacity onPress={() => signOut()}>
+            <Ionicons name="exit" size={32} color="#ff69b4" />
+          </TouchableOpacity>
+        </ViewTop>
         <InputContainer>
           <StyledTouchableOpacity onPress={() => openSelectTime()}>
             <TouchableOpacityText>
@@ -157,8 +130,8 @@ const TodoList = () => {
                 key={index}
                 task={tasks[task]}
                 onDelete={() => deleteTask(task)}
-                onSetDateTime={() => showDateTimePicker(task)}
                 onEdit={() => editModalFunc(task, index)}
+                markComplete={() => checkComplete(task, tasks[task])}
               />
             </>
           ))}

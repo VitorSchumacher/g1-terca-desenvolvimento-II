@@ -1,12 +1,13 @@
+// styles.js
 import styled from 'styled-components/native';
 
 export const Background = styled.View`
-  flex:1;
-  background-color: #FFF;
+  flex: 1;
+  background-color: #f7e3e8; /* Cor de fundo rosa claro */
 `;
 
 export const Container = styled.KeyboardAvoidingView`
-  flex:1;
+  flex: 1;
   align-items: center;
   justify-content: center;
 `;
@@ -20,26 +21,30 @@ export const Logo = styled.Image`
 export const AreaInput = styled.View`
   flex-direction: row;
   width: 90%;
+  margin-bottom: 20px;
+`;
+
+export const Label = styled.Text`
+  font-size: 18px;
+  color: #ff69b4;
+  margin-bottom: 5px;
 `;
 
 export const Input = styled.TextInput`
-  background-color: #FFF;
-  width: 100%;
-  font-size: 17px;
-  padding: 10px 0;
-  color: #121212;
-  margin-bottom: 15px;
-  border-bottom-width: 1px;
-  border-style: solid;
-  border-color: #000;
+  flex: 1;
+  height: 40px;
+  border: 1px solid #ff69b4;
+  border-radius: 8px;
+  padding: 0 10px;
+  color: #ff69b4; 
+  background-color: #fff;
 `;
-
 
 export const SubmitButton = styled.TouchableOpacity`
   width: 90%;
   height: 45px;
   border-radius: 8px;
-  background-color: #68B2F8;
+  background-color: #ff69b4; 
   margin-top: 10px;
   align-items: center;
   justify-content: center;
@@ -48,7 +53,7 @@ export const SubmitButton = styled.TouchableOpacity`
 
 export const SubmitText = styled.Text`
   font-size: 20px;
-  color: #FFF;
+  color: #fff; 
 `;
 
 export const Link = styled.TouchableOpacity`
@@ -57,5 +62,7 @@ export const Link = styled.TouchableOpacity`
 `;
 
 export const LinkText = styled.Text`
-  color: #171717;
+  color: #4b0082; /* Cor roxa escura */
+  font-size: 16px;
+  font-weight: bold;
 `;

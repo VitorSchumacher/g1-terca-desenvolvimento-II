@@ -1,5 +1,8 @@
 import RNModal from "react-native-modal";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import { Text, TouchableOpacity } from "react-native";
 import {
   CenteredView,
   ModalView,
@@ -7,10 +10,11 @@ import {
   EditInput,
   SaveButton,
   SaveButtonText,
+  CloseButton,
+  CloseButtonText,
+  ViewButtons,
 } from "./styles";
-import { useEffect, useState } from "react";
-import DateTimePicker from "react-native-modal-datetime-picker";
-import { Text, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export const Modal = ({ open, onEditFinish, close, item }) => {
   const [editedTitle, setEditedTitle] = useState();
@@ -23,12 +27,13 @@ export const Modal = ({ open, onEditFinish, close, item }) => {
   };
 
   useEffect(() => {
-    setAlter(false)
+    setAlter(false);
     setEditedTitle(item?.task?.title);
     setEditedDate(
       moment(item?.task?.deadline, "DD/MM/YYYY, HH:mm:ss").toISOString()
     );
   }, [item]);
+
   return (
     <RNModal
       isVisible={open}
@@ -42,16 +47,16 @@ export const Modal = ({ open, onEditFinish, close, item }) => {
     >
       <CenteredView>
         <ModalView>
-          <ModalText>Edit Title:</ModalText>
+          <ModalText>Titulo:</ModalText>
           <EditInput
             placeholder="Enter new title"
             value={editedTitle}
             onChangeText={(text) => setEditedTitle(text)}
           />
 
-          <ModalText>Edit Date:</ModalText>
+          <ModalText>Data:</ModalText>
           <TouchableOpacity onPress={() => openSelectTime()}>
-            <Text>Selecionar data {moment(editedDate).format("LLL")}</Text>
+            <Text>Data atual {moment(editedDate).format("LLL")}</Text>
           </TouchableOpacity>
 
           <DateTimePicker
@@ -66,19 +71,30 @@ export const Modal = ({ open, onEditFinish, close, item }) => {
             onCancel={() => openSelectTime()}
             onConfirm={() => openSelectTime()}
           />
-          <SaveButton
-            onPress={() =>
-              onEditFinish(
-                {
-                  deadline: alter ? editedDate.toLocaleString() : item?.task?.deadline,
-                  title: editedTitle,
-                },
-                item?.index
-              )
-            }
-          >
-            <SaveButtonText>Save</SaveButtonText>
-          </SaveButton>
+          <ViewButtons>
+            <SaveButton
+              onPress={() =>
+                onEditFinish(
+                  {
+                    deadline: alter
+                      ? editedDate.toLocaleString()
+                      : item?.task?.deadline,
+                    title: editedTitle,
+                  },
+                  item?.index
+                )
+              }
+            >
+              <Ionicons name="save" size={20} color="#fff" />
+
+              <SaveButtonText>Salvar</SaveButtonText>
+            </SaveButton>
+
+            <CloseButton onPress={close}>
+              <Ionicons name="close" size={20} color="#fff" />
+              <CloseButtonText>Fechar</CloseButtonText>
+            </CloseButton>
+          </ViewButtons>
         </ModalView>
       </CenteredView>
     </RNModal>
