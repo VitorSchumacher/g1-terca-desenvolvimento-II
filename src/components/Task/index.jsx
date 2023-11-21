@@ -82,8 +82,8 @@ const Task = ({ task, onDelete, onEdit, markComplete }) => {
   return (
     <TaskContainer>
       <TaskInfoContainer>
-        <TaskTitle>{task.title}</TaskTitle>
-        <TaskDate>
+        <TaskTitle testID="task-title">{task.title}</TaskTitle>
+        <TaskDate testID="task-deadline">
           Date:{" "}
           {moment(task.deadline, "DD/MM/YYYY, HH:mm:ss")
             .locale("pt-BR")
@@ -93,14 +93,18 @@ const Task = ({ task, onDelete, onEdit, markComplete }) => {
 
       <ViewButonsMain>
         <ViewButons>
-          <EditButton onPress={onEdit}>
+          <EditButton onPress={onEdit} testID="edit-button">
             <Ionicons name="create" size={16} color="white" />
           </EditButton>
-          <DeleteButton onPress={onDelete}>
+          <DeleteButton onPress={onDelete} testID="delete-button">
             <Ionicons name="trash-bin" size={16} color="white" />
           </DeleteButton>
         </ViewButons>
-        <CompleteButton onPress={markComplete} complete={task.finished}>
+        <CompleteButton
+          onPress={markComplete}
+          complete={task.finished}
+          testID="complete-button"
+        >
           {task.finished ? (
             <ViewCheck>
               <FontAwesome name="check" size={20} color="#fff" />
