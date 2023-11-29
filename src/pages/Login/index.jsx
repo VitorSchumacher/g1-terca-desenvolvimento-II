@@ -23,14 +23,20 @@ import {
   ViewOptionsQuantity,
 } from "./style";
 import { addNewUser } from "../../services/user";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { UserContext } from "../../contexts/user";
+import { QuestionsrContext } from "../../contexts/questions";
+import { useNavigation } from "@react-navigation/native";
 
 const Login = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [selectedOption, setSelectedOption] = useState();
   const [selectedQuantity, setSelectedQuantity] = useState();
+  const { createUser, user } = useContext(UserContext);
+  const { getQuestions } = useContext(QuestionsrContext);
+  const { navigate } = useNavigation();
   const options = [
     { label: "Easy", value: "easy", icon: "robot-happy", color: "#0f0" },
     { label: "Medium", value: "medium", icon: "robot", color: "#FFEB3B" },
@@ -41,6 +47,17 @@ const Login = () => {
     { label: "20", value: "20" },
     { label: "30", value: "30" },
   ];
+  const initGame = () => {
+    addNewUser({ name, email });
+    getQuestions(selectedQuantity, selectedOption);
+    createUser({
+      name,
+      email,
+      questions: selectedQuantity,
+      option: selectedOption,
+    });
+    navigate("Questions");
+  };
   return (
     <ImageBackground
       resizeMode="repeat"
@@ -59,11 +76,11 @@ const Login = () => {
         <ViewInputs>
           <InputLabel>Nome</InputLabel>
           <InputContainer>
-            <Input placeholder="Nome" onChangeText={(val) => setName(val)}/>
+            <Input placeholder="Nome" onChangeText={(val) => setName(val)} />
           </InputContainer>
           <InputLabel>E-mail</InputLabel>
           <InputContainer>
-            <Input placeholder="E-mail" onChangeText={(val) => setEmail(val)}/>
+            <Input placeholder="E-mail" onChangeText={(val) => setEmail(val)} />
           </InputContainer>
           <SelectContainer>
             <View>
@@ -112,9 +129,7 @@ const Login = () => {
             </ViewSelectOptionsQuantity>
           </SelectContainer>
         </ViewInputs>
-        <ViewButton
-          onPress={() => addNewUser({ name, email })}
-        >
+        <ViewButton onPress={() => initGame()}>
           <ButtonText>Start</ButtonText>
         </ViewButton>
       </ViewMain>
