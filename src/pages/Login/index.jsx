@@ -22,11 +22,13 @@ import {
   ViewSelectOptionsQuantity,
   ViewOptionsQuantity,
 } from "./style";
-import { addNewUser, teste } from "../../services/user";
+import { addNewUser } from "../../services/user";
 import { useState } from "react";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Login = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [selectedOption, setSelectedOption] = useState();
   const [selectedQuantity, setSelectedQuantity] = useState();
   const options = [
@@ -57,11 +59,11 @@ const Login = () => {
         <ViewInputs>
           <InputLabel>Nome</InputLabel>
           <InputContainer>
-            <Input placeholder="Nome" />
+            <Input placeholder="Nome" onChangeText={(val) => setName(val)}/>
           </InputContainer>
           <InputLabel>E-mail</InputLabel>
           <InputContainer>
-            <Input placeholder="E-mail" />
+            <Input placeholder="E-mail" onChangeText={(val) => setEmail(val)}/>
           </InputContainer>
           <SelectContainer>
             <View>
@@ -111,7 +113,7 @@ const Login = () => {
           </SelectContainer>
         </ViewInputs>
         <ViewButton
-          onPress={() => teste({ name: "toby", email: "toby@gmail.com" })}
+          onPress={() => addNewUser({ name, email })}
         >
           <ButtonText>Start</ButtonText>
         </ViewButton>
