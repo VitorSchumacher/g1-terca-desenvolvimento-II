@@ -50,6 +50,6 @@ describe("Task component", () => {
     expect(markCompleteMock).toHaveBeenCalledTimes(1);
   });
 
-  
+
 
 });
