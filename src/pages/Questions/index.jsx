@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ImageBackground, View, StyleSheet } from "react-native";
+import { ImageBackground, View, StyleSheet, ScrollView } from "react-native";
 import { QuestionsrContext } from "../../contexts/questions";
 import {
   InputLabel,
@@ -84,26 +84,28 @@ const Questions = () => {
       }}
       source={require("../../assets/imageBackground.png")}
     >
-      <ViewMain>
-        <InputLabel>{currentIssue.category}</InputLabel>
-        <Animated.View style={[styles.timerCircle, animatedStyle]} />
-        <InputLabel>{timer}</InputLabel>
-        <InputLabel>
-          Question {questionAct} of {user.questions}
-        </InputLabel>
-        <TextQuestion>{currentIssue.question}</TextQuestion>
-        <ViewQuestions>
-          {currentIssue.answers.map((answere) => (
-            <TouchableQuestion
-              onPress={() => {
-                avanceQuestion(answere);
-              }}
-            >
-              <TextQuestionAlter>{answere}</TextQuestionAlter>
-            </TouchableQuestion>
-          ))}
-        </ViewQuestions>
-      </ViewMain>
+      <ScrollView  style={{ flex: 1}}>
+        <ViewMain>
+          <InputLabel>{currentIssue.category}</InputLabel>
+          <InputLabel>{timer}</InputLabel>
+          <Animated.View style={[styles.timerCircle, animatedStyle]} />
+          <InputLabel>
+            Question {questionAct} of {user.questions}
+          </InputLabel>
+          <TextQuestion>{currentIssue.question}</TextQuestion>
+          <ViewQuestions>
+            {currentIssue.answers.map((answere) => (
+              <TouchableQuestion
+                onPress={() => {
+                  avanceQuestion(answere);
+                }}
+              >
+                <TextQuestionAlter>{answere}</TextQuestionAlter>
+              </TouchableQuestion>
+            ))}
+          </ViewQuestions>
+        </ViewMain>
+      </ScrollView>
     </ImageBackground>
   );
 };
