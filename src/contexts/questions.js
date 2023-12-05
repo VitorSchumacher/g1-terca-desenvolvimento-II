@@ -15,7 +15,6 @@ function QuestionsProvider({ children }) {
   const [last, setLast] = useState(false);
   const { user } = useContext(UserContext);
 
-
   const getQuestions = useCallback(async (quant, difficulty) => {
     try {
       let response = await fetch(
@@ -73,7 +72,11 @@ function QuestionsProvider({ children }) {
       "🚀 ~ file: questions.js:70 ~ submmitResponse ~ finallyResult:",
       finallyResult
     );
-    addNewResponse(finallyResult,user.questions,user.option)
+    addNewResponse(
+      { ...finallyResult, name: user.name, email: user.email },
+      user.questions,
+      user.option
+    );
   };
 
   return (
