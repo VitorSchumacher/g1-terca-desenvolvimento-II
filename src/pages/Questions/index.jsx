@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { ImageBackground, Text, View, StyleSheet } from "react-native";
+import { ImageBackground, View, StyleSheet } from "react-native";
 import { QuestionsrContext } from "../../contexts/questions";
 import {
   InputLabel,
@@ -25,8 +25,6 @@ const Questions = () => {
   const { navigate } = useNavigation();
   const [timer, setTimer] = useState(30);
 
-  const [circleColor, setCircleColor] = useState("green");
-
   useEffect(() => {
     if (last) {
       submmitResponse();
@@ -36,22 +34,15 @@ const Questions = () => {
 
   useEffect(() => {
     setTimer(30);
-    setCircleColor("green");
   }, [currentIssue]);
 
   useEffect(() => {
     const timerInterval = setInterval(() => {
       setTimer((prevTimer) => {
-        startAnimation(prevTimer);
+        updateAnimatedWidth(prevTimer);
         if (prevTimer === 0) {
           clearInterval(timerInterval);
           avanceQuestion(null);
-        } else if (prevTimer <= 30 && prevTimer > 15) {
-          setCircleColor("green");
-        } else if (prevTimer <= 15 && prevTimer > 5) {
-          setCircleColor("yellow");
-        } else if (prevTimer <= 5) {
-          setCircleColor("red");
         }
         return prevTimer - 1;
       });
@@ -60,19 +51,25 @@ const Questions = () => {
     return () => clearInterval(timerInterval);
   }, [currentIssue, avanceQuestion]);
 
-
-  const animatedWidth = useSharedValue(333,3);
+  const animatedWidth = useSharedValue(31);
 
   const animatedStyle = useAnimatedStyle(() => {
-    return {
-      width: withSpring(animatedWidth.value), 
-      height: 10,
-      backgroundColor: circleColor,
-    };
-  },);
+    const color =
+      animatedWidth.value > 15
+        ? "green"
+        : animatedWidth.value > 5
+        ? "yellow"
+        : "red";
 
-  const startAnimation = (value) => {
-    animatedWidth.value = (value / 9) * 100; 
+    return {
+      width: withSpring((animatedWidth.value / 9) * 100),
+      height: 10,
+      backgroundColor: color,
+    };
+  });
+
+  const updateAnimatedWidth = (value) => {
+    animatedWidth.value = value;
   };
   if (!currentIssue) {
     return <View />;
