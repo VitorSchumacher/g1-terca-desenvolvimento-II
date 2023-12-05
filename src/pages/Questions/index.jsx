@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ImageBackground, Text, View } from "react-native";
 import { QuestionsrContext } from "../../contexts/questions";
 import {
@@ -17,6 +17,7 @@ const Questions = () => {
     useContext(QuestionsrContext);
   const { user } = useContext(UserContext);
   const { navigate } = useNavigation();
+  const [timer, setTimer] = useState(30);
 
   useEffect(() => {
     if (last) {
@@ -25,6 +26,25 @@ const Questions = () => {
       navigate("Result");
     }
   }, [last]);
+
+  useEffect(() => {
+    setTimer(30);
+  }, [currentIssue]);
+
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          clearInterval(timerInterval);
+          avanceQuestion(null); 
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timerInterval);
+  }, [currentIssue, avanceQuestion]);
+
   if (!currentIssue) {
     return <View />;
   }
@@ -40,6 +60,7 @@ const Questions = () => {
     >
       <ViewMain>
         <InputLabel>{currentIssue.category}</InputLabel>
+        <InputLabel>{timer}</InputLabel>
         <InputLabel>
           Question {questionAct} of {user.questions}
         </InputLabel>
