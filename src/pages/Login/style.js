@@ -9,6 +9,11 @@ export const ViewButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
+
+export const ViewButtonOff = styled(ViewButton)`
+  background-color: #ccc;
+`;
+
 export const ButtonText = styled.Text`
   color: #fff;
   font-size: 32px;

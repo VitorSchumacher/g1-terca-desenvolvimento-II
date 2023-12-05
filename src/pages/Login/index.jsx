@@ -6,6 +6,8 @@ import {
   View,
 } from "react-native";
 
+import { useFocusEffect } from "@react-navigation/native";
+
 import { Picker } from "@react-native-picker/picker";
 import {
   ViewButton,
@@ -21,9 +23,10 @@ import {
   TextSelect,
   ViewSelectOptionsQuantity,
   ViewOptionsQuantity,
+  ViewButtonOff,
 } from "./style";
 import { addNewUser } from "../../services/user";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserContext } from "../../contexts/user";
 import { QuestionsrContext } from "../../contexts/questions";
@@ -36,6 +39,20 @@ const Login = () => {
   const [selectedQuantity, setSelectedQuantity] = useState();
   const { createUser, user } = useContext(UserContext);
   const { getQuestions } = useContext(QuestionsrContext);
+
+  const reset = () => {
+    setName("");
+    setEmail("");
+    setSelectedQuantity();
+    setSelectedOption();
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      reset();
+    }, [])
+  );
+
   const { navigate } = useNavigation();
   const options = [
     { label: "Easy", value: "easy", icon: "robot-happy", color: "#0f0" },
@@ -58,6 +75,14 @@ const Login = () => {
     });
     navigate("Questions");
   };
+
+  const ValidateCamps = useMemo(() => {
+    if (name && email && selectedOption && selectedQuantity) {
+      return true;
+    }
+    return false;
+  }, [name && email && selectedOption && selectedQuantity]);
+
   return (
     <ImageBackground
       resizeMode="repeat"
@@ -76,11 +101,19 @@ const Login = () => {
         <ViewInputs>
           <InputLabel>Nome</InputLabel>
           <InputContainer>
-            <Input placeholder="Nome" onChangeText={(val) => setName(val)} />
+            <Input
+              value={name}
+              placeholder="Nome"
+              onChangeText={(val) => setName(val)}
+            />
           </InputContainer>
           <InputLabel>E-mail</InputLabel>
           <InputContainer>
-            <Input placeholder="E-mail" onChangeText={(val) => setEmail(val)} />
+            <Input
+              value={email}
+              placeholder="E-mail"
+              onChangeText={(val) => setEmail(val)}
+            />
           </InputContainer>
           <SelectContainer>
             <View>
@@ -129,9 +162,16 @@ const Login = () => {
             </ViewSelectOptionsQuantity>
           </SelectContainer>
         </ViewInputs>
-        <ViewButton onPress={() => initGame()}>
-          <ButtonText>Start</ButtonText>
-        </ViewButton>
+
+        {ValidateCamps ? (
+          <ViewButton onPress={() => initGame()}>
+            <ButtonText>Start</ButtonText>
+          </ViewButton>
+        ) : (
+          <ViewButtonOff>
+            <ButtonText>Start</ButtonText>
+          </ViewButtonOff>
+        )}
       </ViewMain>
     </ImageBackground>
   );

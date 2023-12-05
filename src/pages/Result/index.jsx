@@ -3,20 +3,27 @@ import { View, Text, ImageBackground } from "react-native";
 import { db } from "../../firebaseConnection";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/user";
-import { ButtonText, InputLabel, TextPoints, TextQuestion, ViewButton, ViewItemList, ViewList, ViewMain } from "./styles";
+import {
+  ButtonText,
+  InputLabel,
+  TextPoints,
+  TextQuestion,
+  ViewButton,
+  ViewItemList,
+  ViewList,
+  ViewMain,
+} from "./styles";
 import { QuestionsrContext } from "../../contexts/questions";
+import { useNavigation } from "@react-navigation/native";
 
 const Result = () => {
   const [data, setData] = useState();
   const [position, setPosition] = useState();
   const [flag, setFlag] = useState(true);
   const { user } = useContext(UserContext);
-  const { finallyResult } = useContext(QuestionsrContext);
-  console.log(
-    "🚀 ~ file: index.jsx:13 ~ Result ~ finallyResult:",
-    finallyResult
-  );
-  console.log("🚀 ~ file: index.jsx:11 ~ Result ~ user:", user);
+  const { finallyResult, steInitialValuesQuestions } =
+    useContext(QuestionsrContext);
+  const { navigate } = useNavigation();
 
   const fetchData = async () => {
     try {
@@ -30,6 +37,12 @@ const Result = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const restGame = () => {
+    console.log("🚀 ~ file: index.jsx:45 ~ restGame ~ Login:");
+    steInitialValuesQuestions();
+    navigate("Login");
   };
 
   useEffect(() => {
@@ -105,7 +118,7 @@ const Result = () => {
               );
             })}
         </ViewList>
-        <ViewButton>
+        <ViewButton onPress={() => restGame()}>
           <ButtonText>Play Again</ButtonText>
         </ViewButton>
       </ViewMain>

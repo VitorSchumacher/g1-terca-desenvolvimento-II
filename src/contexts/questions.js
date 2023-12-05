@@ -15,6 +15,17 @@ function QuestionsProvider({ children }) {
   const [last, setLast] = useState(false);
   const { user } = useContext(UserContext);
 
+  const steInitialValuesQuestions = () => {
+    setQuestions();
+    setCurrentIssue();
+    setFinallyResult({
+      correct: 0,
+      incorrect: 0,
+    });
+    setQuestionAct(1);
+    setLast(false);
+  };
+
   const getQuestions = useCallback(async (quant, difficulty) => {
     try {
       let response = await fetch(
@@ -90,6 +101,7 @@ function QuestionsProvider({ children }) {
         questionAct,
         finallyResult,
         submmitResponse,
+        steInitialValuesQuestions,
       }}
     >
       {children}
